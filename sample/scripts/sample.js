@@ -66,7 +66,33 @@ angular.module('sample', [
   });
 
 })
-.controller('navigationCtrl', function($scope, $location){
+.controller('navigationCtrl', function($scope, $location, $rootScope){
+
+  $rootScope.options = {
+    serverUrl : "http://caoba-access.virtual.uniandes.edu.co:8081/"
+  };
+
+  $rootScope.$on("onFilterParamsChange",  function(event, filter) {
+    //$log.debug('onFilterParamsChange  ');
+    $scope.loadData();
+  });
+
+//parameter Service
+  $rootScope.filterParams = {
+   
+  };
+
+ // Método que utilizan los widgets para actualizar los parámetros del filtro seleccionado
+  $rootScope.updateFilters  = function(updatedParams){
+    $log.debug('updateFilters'+updatedParams);
+    $rootScope.filterParams = angular.extend($rootScope.filterParams, updatedParams);
+    $rootScope.notifyChildrenParamsChange();
+  };
+// Notificación a los widgets cuando ocurren cambios en los filtros de datos
+  $rootScope.notifyChildrenParamsChange  = function(){
+    $log.debug('notifyChildrenParamsChange');
+    $rootScope.$broadcast('onFilterParamsChange', $rootScope.filterParams );
+  };
 
   $scope.navCollapsed = true;
 
