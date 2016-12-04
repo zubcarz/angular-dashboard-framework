@@ -32,6 +32,9 @@ angular.module('sample', [
   'LocalStorageModule',
   'sample-01', 'sample-02', 'sample-03',
   'sample-04', 'sample-05', 'ngRoute',
+  'adf.widget.Visual_HorasHombreIndirectas',
+  'adf.widget.Visual_Recursos','adf.widget.VISUAL_ValorGanadoDiscriminado',
+  'adf.widget.Visual_HorasHombre','adf.widget.Visual_ValorGanado',
   'gridshore.c3js.chart'
 ])
 .config(function(dashboardProvider, $routeProvider, localStorageServiceProvider){
