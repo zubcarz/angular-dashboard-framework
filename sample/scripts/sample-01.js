@@ -40,12 +40,7 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
              {
               type: "Visual_ValorGanado",
               config: {},
-              title: "Valor Ganado"
-            },
-            {
-              type: "Visual_ValorGanado",
-              config: {},
-              title: "Valor Ganado"
+              title: "Valor Ganado Construccion"
             },
             {
             type: "Visual_HorasHombre",
@@ -53,19 +48,9 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
             title: "Horas Hombre"
            }
           ]
-        }, {
+        },{
           styleClass: "col-md-6",
           widgets: [
-            {
-              type: "Visual_ValorGanado",
-              config: {},
-              title: "Valor Ganado"
-            },
-            {
-              type: "Visual_ValorGanado",
-              config: {},
-              title: "Valor Ganado"
-            },
             {
             type: "Visual_HorasHombreIndirectas",
             config: {},

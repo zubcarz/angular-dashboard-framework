@@ -55,6 +55,14 @@ angular.module('sample-05', ['adf', 'LocalStorageModule'])
                 path: "angular-dashboard-framework/angular-dashboard-framework"
               },
               title: "Github History"
+            },{
+              fullScreen: true,
+              //modalSize: 'lg',
+              type: "githubHistory",
+              config: {
+                path: "angular-dashboard-framework/angular-dashboard-framework"
+              },
+              title: "Github History"
             }]
           }]
         }]
