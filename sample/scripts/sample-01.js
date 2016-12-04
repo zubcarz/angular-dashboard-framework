@@ -26,56 +26,46 @@
 angular.module('sample-01', ['adf', 'LocalStorageModule'])
 .controller('sample01Ctrl', function($scope, localStorageService){
 
-  var name = 'sample-01';
+  var name = 'Activity Concrete Project';
   var model = localStorageService.get(name);
   if (!model) {
     // set default model for demo purposes
     model = {
-      title: "Sample 01",
-      structure: "4-8",
+      title: "Activity Concrete Project",
+      structure: "6-6",
       rows: [{
         columns: [{
-          styleClass: "col-md-4",
-          widgets: [{
-            type: "linklist",
-            config: {
-              links: [{
-                title: "SCM-Manager",
-                href: "http://www.scm-manager.org"
-              }, {
-                title: "Github",
-                href: "https://github.com"
-              }, {
-                title: "Bitbucket",
-                href: "https://bitbucket.org"
-              }, {
-                title: "Stackoverflow",
-                href: "http://stackoverflow.com"
-              }]
-            },
-            title: "Links"
-          }, {
-            type: "weather",
-            config: {
-              location: "Hildesheim"
-            },
-            title: "Weather Hildesheim"
-          }, {
-            type: "weather",
-            config: {
-              location: "Edinburgh"
-            },
-            title: "Weather"
-          }, {
-            type: "weather",
-            config: {
-              location: "Dublin,IE"
-            },
-            title: "Weather"
-          }]
-        }, {
-          styleClass: "col-md-8",
+          styleClass: "col-md-6",
           widgets: [
+             {
+              type: "Visual_ValorGanado",
+              config: {},
+              title: "Valor Ganado"
+            },
+            {
+              type: "Visual_ValorGanado",
+              config: {},
+              title: "Valor Ganado"
+            },
+            {
+            type: "Visual_HorasHombre",
+            config: {},
+            title: "Horas Hombre"
+           }
+          ]
+        }, {
+          styleClass: "col-md-6",
+          widgets: [
+            {
+              type: "Visual_ValorGanado",
+              config: {},
+              title: "Valor Ganado"
+            },
+            {
+              type: "Visual_ValorGanado",
+              config: {},
+              title: "Valor Ganado"
+            },
             {
             type: "Visual_HorasHombreIndirectas",
             config: {},
@@ -85,22 +75,8 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
             type: "Visual_Recursos",
             config: {},
             title: "Recursos"
-          },
-          {
-            type: "Visual_ValorGanado",
-            config: {},
-            title: "Valor Ganado"
-          },
-          {
-            type: "VISUAL_ValorGanadoDiscriminado",
-            config: {},
-            title: "Valor Ganado Discriminado"
-          },
-         {
-            type: "Visual_HorasHombre",
-            config: {},
-            title: "Horas Hombre"
-          }]
+          }
+         ]
         }]
       }]
     };
