@@ -31,7 +31,8 @@ angular.module('sample', [
   'adf.widget.clock', 'adf.widget.travis',
   'LocalStorageModule',
   'sample-01', 'sample-02', 'sample-03',
-  'sample-04', 'sample-05', 'ngRoute'
+  'sample-04', 'sample-05', 'ngRoute',
+  'gridshore.c3js.chart'
 ])
 .config(function(dashboardProvider, $routeProvider, localStorageServiceProvider){
   dashboardProvider.widgetsPath('widgets/');
