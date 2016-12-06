@@ -16,17 +16,14 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
   }).service('ValorGanadoService', function($q, $http, $rootScope){
     return {
       //service Example
-      /*
-      getData: function(){
-        //TODO  obtener los parámetros del objeto de configuración global
-        var filterParams = $rootScope.filterParams;
-        var serviceUrl = $rootScope.options.serverUrl + "get_num_acc_grav"
+      
+      getPathActivity: function(){
+        
+        //var linkUrl = "localhost:8080/visual";
+        var linkUrl = "http://Default-Environment.znqi4sqsbu.us-west-2.elasticbeanstalk.com/visual"
+        var serviceUrl = linkUrl+ "/path-activity"
         var deferred = $q.defer();
-		    var fparams = JSON.stringify(filterParams);
-        var requestConfig = {
-            headers: {'Content-Type': "application/json"}
-        };
-        $http.post(serviceUrl, filterParams ,requestConfig  ).success(function(data){
+        $http.get(serviceUrl).success(function(data){
             if (data  ){
               deferred.resolve(data);
             } else {
@@ -37,8 +34,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
             deferred.reject();
           });
         return deferred.promise;
-      }*/
-    };
+      }   };
   })
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +52,22 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
         ],
         selected: 'All'
       };
+
+      $scope.ActivityParent = {
+        options: [
+          'All',
+        ],
+        selected: 'All'
+      };
+
+      
+
+      ValorGanadoService.getPathActivity().then(function(response){
+          response.forEach(function(element) {
+            console.log('asd');
+            $scope.ActivityParent.options.push( element.WBSPath + " "+ element.WBSName)
+          });      
+      }); 
 
     var dates = 
     [
