@@ -46,7 +46,7 @@ angular.module('adf.widget.Visual_HorasHombreIndirectas', ['adf.provider'])
     $scope.chart = c3.generate({
             bindto: '#chart-horas-hombre-indirectas',
             size: {
-                height: 240
+                height: 200
             },  
             data: {
             x: 'x',

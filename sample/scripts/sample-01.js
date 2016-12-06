@@ -41,12 +41,7 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
               type: "Visual_ValorGanado",
               config: {},
               title: "Earned ValueConstruction"
-            },
-            {
-            type: "Visual_HorasHombre",
-            config: {},
-            title: "Horas Hombre"
-           }
+            }
           ]
         },{
           styleClass: "col-md-6",
@@ -60,7 +55,12 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
             type: "Visual_Recursos",
             config: {},
             title: "Productividad "
-          }
+          },
+            {
+            type: "Visual_HorasHombre",
+            config: {},
+            title: "Horas Hombre"
+           }
          ]
         }]
       }]

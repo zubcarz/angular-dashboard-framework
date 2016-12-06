@@ -46,7 +46,7 @@ angular.module('adf.widget.Visual_Recursos', ['adf.provider'])
     $scope.chart = c3.generate({
             bindto: '#chart-Valor-Recursos',
             size: {
-                height: 240
+                height: 200
             },  
             data: {
             x: 'x',

@@ -63,6 +63,33 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
           });
         return deferred.promise;
       },
+      getEarnedValueItem: function(pDate,pWsPath,pType){
+        
+        //var linkUrl = "localhost:8080/visual";
+        var linkUrl = "http://Default-Environment.znqi4sqsbu.us-west-2.elasticbeanstalk.com/visual"
+        var serviceUrl = linkUrl+ "/earned-value-type"
+        var deferred = $q.defer();
+
+        var config = {
+          params: {
+            date: pDate,
+            wsPath: pWsPath,
+            type: pType
+          }
+        }
+
+        $http.get(serviceUrl,config).success(function(data){
+            if (data  ){
+              deferred.resolve(data);
+            } else {
+              deferred.resolve( [] );
+            }
+          })
+          .error(function(){
+            deferred.reject();
+          });
+        return deferred.promise;
+      },
     
     };
   })
@@ -83,8 +110,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
           'Otros':'O'
     }; 
   
-
-        //config toogle
+    //config toogle
      $scope.TypeActivity = {
         options: [
           'All',
@@ -99,6 +125,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
         if(value != null)
         {
            $scope.loadData();
+           $scope.loadDataItem();
         }
       });
 
@@ -114,18 +141,20 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
         if(value != null)
         {
            $scope.loadData();
+           $scope.loadDataItem();
         }
       });
 
       function start (){
-        
           ValorGanadoService.getPathActivity().then(function(response){
                 response.forEach(function(element) {
                   $scope.ActivityParent.options.push(element.WBSPath+'-'+element.WBSName)
                   $scope.parentActivityObj[element.WBSPath+'-'+element.WBSName] = element.WBSPath;
                 });      
             }); 
-          $scope.loadData();
+          $scope.loadDataItem();  
+           $scope.loadData();
+           
       }
 
 
@@ -161,6 +190,36 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                     });
                   }
                 });
+            });
+      }
+
+      $scope.loadDataItem = function (){
+        ValorGanadoService.getEarnedValueItem('2016-10-15',$scope.parentActivityObj[$scope.ActivityParent.selected],
+                                          $scope.typeActivityObj[$scope.TypeActivity.selected]).then(function(result){
+          
+               var itemnsLabels= ['Actividades'];
+               var value = ['Desviation'];
+      
+              result.forEach(function(element) {
+                  itemnsLabels.push(element.ActivityName);
+                  value.push(element.EVDesviation);
+              }); 
+
+                
+              var newData = [
+                itemnsLabels,
+                value
+              ];
+
+              console.log(result);
+
+              $scope.chartDesviation.unload({
+                done: function() {
+                    $scope.chartDesviation.load({
+                      columns: newData
+                  });   
+                }
+              });
             });
       }
      
@@ -251,7 +310,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                     type: 'timeseries',
                     tick: {
                         format: '%Y-%m-%d',
-                        rotate: 60
+                        rotate: 45
                     }
                 }
             },
@@ -282,11 +341,9 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
               x: 'Actividades',
               type: 'bar',
               columns: [
-                  ['Actividades', 'Actividad1', 'Actividad2', 'Actividad3'],
-                  ['Desviations',30, 70, 45],
               ],
               colors : {
-                'Actividades': '#8a89a6'
+                'Desviation': '#8a89a6'
               },
             },
             axis: {
