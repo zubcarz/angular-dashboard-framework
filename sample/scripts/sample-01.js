@@ -40,7 +40,7 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
              {
               type: "Visual_ValorGanado",
               config: {},
-              title: "Valor Ganado Construccion"
+              title: "Earned ValueConstruction"
             },
             {
             type: "Visual_HorasHombre",

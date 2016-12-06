@@ -34,7 +34,37 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
             deferred.reject();
           });
         return deferred.promise;
-      }   };
+      },
+      getEarnedValue: function(){
+        
+        //var linkUrl = "localhost:8080/visual";
+        var linkUrl = "http://Default-Environment.znqi4sqsbu.us-west-2.elasticbeanstalk.com/visual"
+        var serviceUrl = linkUrl+ "/earned-value"
+        var deferred = $q.defer();
+
+        var config = {
+          params: {
+            wsPath: "All",
+            type: "All", 
+            start : "2016-08-01", 
+            end:"2017-01-15"
+          }
+        }
+
+        $http.get(serviceUrl,config).success(function(data){
+            if (data  ){
+              deferred.resolve(data);
+            } else {
+              deferred.resolve( [] );
+            }
+          })
+          .error(function(){
+            deferred.reject();
+          });
+        return deferred.promise;
+      },
+    
+    };
   })
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
@@ -60,14 +90,52 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
         selected: 'All'
       };
 
-      
+      function start (){
+        
+          ValorGanadoService.getPathActivity().then(function(response){
+                response.forEach(function(element) {
+                  $scope.ActivityParent.options.push( element.WBSPath + " "+ element.WBSName)
+                });      
+            }); 
 
-      ValorGanadoService.getPathActivity().then(function(response){
-          response.forEach(function(element) {
-            console.log('asd');
-            $scope.ActivityParent.options.push( element.WBSPath + " "+ element.WBSName)
-          });      
-      }); 
+          $scope.loadData();
+      }
+
+
+    $scope.loadData = function (){
+        ValorGanadoService.getEarnedValue().then(function(result){
+          
+                $scope.PV = ['Planed Value'];
+                $scope.EV = ['Earned Value'];
+                $scope.AC = ['Actual Cost'];
+                $scope.timeSerie = ['x'];
+                $scope.CPI = [];
+                $scope.SPI = [];
+                    
+                result.forEach(function(element) {
+                    $scope.PV.push(element.PV);
+                    $scope.EV.push(element.EV);
+                    $scope.AC.push(element.AC);
+                    $scope.timeSerie.push(element.fecha);
+                    $scope.CPI.push(element.CPI);
+                    $scope.SPI.push(element.SPI);
+                }); 
+
+                $scope.chartEarnedValue.unload({
+                  done: function() {
+                      $scope.chartEarnedValue.load({
+                        columns: [
+                          $scope.timeSerie,
+                          $scope.PV,
+                          $scope.EV,
+                          $scope.AC
+                        ]                          
+                    });
+                  }
+                });
+            });
+      }
+     
 
     var dates = 
     [
@@ -113,7 +181,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
   };
 
 
-    $scope.chart = c3.generate({
+    $scope.chartEarnedValue = c3.generate({
             bindto: '#chart-Valor-Ganado',
             size: {
                 height: 240
@@ -121,10 +189,6 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
             data: {
             x: 'x',
             columns: [
-                ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-                ['Planed Value', 30, 200, 100, 400, 150, 250],
-                ['Earned Value', 130, 340, 200, 500, 250, 350],
-                ['Actual Cost', 30, 40, 200, 420, 440, 500]
             ],
             colors : {
               'Planed Value':'#4683C8', 
@@ -136,7 +200,8 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                 x: {
                     type: 'timeseries',
                     tick: {
-                        format: '%Y-%m-%d'
+                        format: '%Y-%m-%d',
+                        rotate: 60
                     }
                 }
             },
@@ -151,14 +216,15 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                     function (d, defaultTitleFormat, defaultValueFormat, color) {
                     console.log(d);
                      var table = "<div id='tooltip' class='d3-tip'>";
-                      table +=  "<table class=\"c3-tooltip\"><tbody><tr><th colspan=\"3\">"+"Valor Ganado"+"</th></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#4683C8\"></span>"+"PV"+"</td><td class=\"value\">"+"Value"+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#EC8A3A\"></span>"+"EV"+"</td><td class=\"value\">"+"Value"+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#7F7F7F\"></span>"+"AC"+"</td><td class=\"value\">"+"Value"+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\">"+"SCI"+"</td><td class=\"value\">"+"Value"+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\">"+"SPI"+"</td><td class=\"value\">"+"Value"+"</td></tr></tbody></table>";
+                      table +=  "<table class=\"c3-tooltip\"><tbody><tr><th colspan=\"3\">"+"Valor Ganado"+"</th></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#4683C8\"></span>"+"PV"+"</td><td class=\"value\">"+$scope.PV[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#EC8A3A\"></span>"+"EV"+"</td><td class=\"value\">"+$scope.EV[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#7F7F7F\"></span>"+"AC"+"</td><td class=\"value\">"+$scope.AC[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\">"+"SPI"+"</td><td class=\"value\">"+$scope.SPI[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\">"+"CPI"+"</td><td class=\"value\">"+$scope.CPI[d[0].index+1]+"</td></tr></tbody></table>";
                       table += "</div>";
                       return table; 
                     }
            }
         });
+      
 
-      $scope.chart = c3.generate({
+      $scope.chartDesviation  = c3.generate({
             bindto: '#chart-Valor-Top',
             size: {
                 height: 240
@@ -193,5 +259,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
               }
            }
         });  
+
+        start();
 
   });
