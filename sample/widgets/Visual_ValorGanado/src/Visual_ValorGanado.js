@@ -35,7 +35,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
           });
         return deferred.promise;
       },
-      getEarnedValue: function(){
+      getEarnedValue: function(pWsPath,pType,pStart,pEnd){
         
         //var linkUrl = "localhost:8080/visual";
         var linkUrl = "http://Default-Environment.znqi4sqsbu.us-west-2.elasticbeanstalk.com/visual"
@@ -44,10 +44,10 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
 
         var config = {
           params: {
-            wsPath: "All",
-            type: "All", 
-            start : "2016-08-01", 
-            end:"2017-01-15"
+            wsPath: pWsPath,
+            type: pType, 
+            start : pStart, 
+            end: pEnd
           }
         }
 
@@ -71,6 +71,18 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
   // Controlador asociado a la vista del widget
   .controller('ValorGanadoController', function($scope, $rootScope,  $sce, ValorGanadoService){
 
+    $scope.startDate = "2016-08-08";
+    $scope.endDate = "2017-01-30";
+    $scope.parentActivityObj={
+      'All':'All'
+    }; 
+    $scope.typeActivityObj ={
+          'All':'All',
+          'Filtros':'F',
+          'Molinos':'M',
+          'Otros':'O'
+    }; 
+  
 
         //config toogle
      $scope.TypeActivity = {
@@ -83,6 +95,14 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
         selected: 'All'
       };
 
+      $scope.$watch("TypeActivity.selected", function(value){
+        if(value != null)
+        {
+           $scope.loadData();
+        }
+      });
+
+
       $scope.ActivityParent = {
         options: [
           'All',
@@ -90,20 +110,28 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
         selected: 'All'
       };
 
+       $scope.$watch("ActivityParent.selected", function(value){
+        if(value != null)
+        {
+           $scope.loadData();
+        }
+      });
+
       function start (){
         
           ValorGanadoService.getPathActivity().then(function(response){
                 response.forEach(function(element) {
-                  $scope.ActivityParent.options.push( element.WBSPath + " "+ element.WBSName)
+                  $scope.ActivityParent.options.push(element.WBSPath+'-'+element.WBSName)
+                  $scope.parentActivityObj[element.WBSPath+'-'+element.WBSName] = element.WBSPath;
                 });      
             }); 
-
           $scope.loadData();
       }
 
 
     $scope.loadData = function (){
-        ValorGanadoService.getEarnedValue().then(function(result){
+        ValorGanadoService.getEarnedValue($scope.parentActivityObj[$scope.ActivityParent.selected],
+                                          $scope.typeActivityObj[$scope.TypeActivity.selected],$scope.startDate,$scope.endDate).then(function(result){
           
                 $scope.PV = ['Planed Value'];
                 $scope.EV = ['Earned Value'];
@@ -180,6 +208,28 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
     }
   };
 
+     $scope.$watch("slider.minValue", function(value){
+        if(value != null)
+        {
+          var day = value.getDate();
+          var monthIndex = value.getMonth();
+          var year = value.getFullYear();
+          $scope.startDate = year+"-"+(monthIndex+1)+"-"+day;
+          $scope.loadData();
+        }
+      });
+
+         $scope.$watch("slider.maxValue", function(value){
+        if(value != null)
+        {
+          var day = value.getDate();
+          var monthIndex = value.getMonth();
+          var year = value.getFullYear();
+          $scope.endDate = year+"-"+(monthIndex+1)+"-"+day;
+          $scope.loadData();
+          }
+      });
+
 
     $scope.chartEarnedValue = c3.generate({
             bindto: '#chart-Valor-Ganado',
@@ -214,7 +264,6 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                     grouped: false,
                     contents: 
                     function (d, defaultTitleFormat, defaultValueFormat, color) {
-                    console.log(d);
                      var table = "<div id='tooltip' class='d3-tip'>";
                       table +=  "<table class=\"c3-tooltip\"><tbody><tr><th colspan=\"3\">"+"Valor Ganado"+"</th></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#4683C8\"></span>"+"PV"+"</td><td class=\"value\">"+$scope.PV[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#EC8A3A\"></span>"+"EV"+"</td><td class=\"value\">"+$scope.EV[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\"><span style=\"background-color:#7F7F7F\"></span>"+"AC"+"</td><td class=\"value\">"+$scope.AC[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\">"+"SPI"+"</td><td class=\"value\">"+$scope.SPI[d[0].index+1]+"</td></tr><tr class=\"c3-tooltip-name--day\"><td class=\"name\">"+"CPI"+"</td><td class=\"value\">"+$scope.CPI[d[0].index+1]+"</td></tr></tbody></table>";
                       table += "</div>";
