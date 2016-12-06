@@ -35,7 +35,7 @@ angular.module('sample', [
   'adf.widget.Visual_HorasHombreIndirectas',
   'adf.widget.Visual_Recursos','adf.widget.VISUAL_ValorGanadoDiscriminado',
   'adf.widget.Visual_HorasHombre','adf.widget.Visual_ValorGanado',
-  'gridshore.c3js.chart'
+  'gridshore.c3js.chart','rzModule'
 ])
 .config(function(dashboardProvider, $routeProvider, localStorageServiceProvider){
   dashboardProvider.widgetsPath('widgets/');

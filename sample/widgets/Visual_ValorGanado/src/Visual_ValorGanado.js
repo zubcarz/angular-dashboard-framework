@@ -44,6 +44,63 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
   ///////////////////////////////////////////////////////////////////////////////////////////
   // Controlador asociado a la vista del widget
   .controller('ValorGanadoController', function($scope, $rootScope,  $sce, ValorGanadoService){
+
+
+        //config toogle
+     $scope.TypeActivity = {
+        options: [
+          'All',
+          'Filtros',
+          'Molinos',
+          'Otros',
+        ],
+        selected: 'All'
+      };
+
+    var dates = 
+    [
+      new Date(2016, 7, 8),
+      new Date(2016, 7, 15),
+      new Date(2016, 7, 22),
+      new Date(2016, 7, 29),
+      new Date(2016, 8, 5),
+      new Date(2016, 8, 12),
+      new Date(2016, 8, 19),
+      new Date(2016, 8, 26),
+      new Date(2016, 9, 3),
+      new Date(2016, 9, 10),
+      new Date(2016, 9, 17),
+      new Date(2016, 9, 24),
+      new Date(2016, 9, 31),
+      new Date(2016, 10, 7),
+      new Date(2016, 10, 14),
+      new Date(2016, 10, 21),
+      new Date(2016, 10, 28),
+      new Date(2016, 11, 5),
+      new Date(2016, 11, 12),
+      new Date(2016, 11, 19),
+      new Date(2016, 11, 26),
+      new Date(2017, 0, 2),
+      new Date(2017, 0, 9),
+      new Date(2017, 0, 16),
+      new Date(2017, 0, 23),
+      new Date(2017, 0, 30)
+    ]
+
+    $scope.slider = {
+    minValue: dates[0],
+    maxValue: dates[25], 
+    options: {
+      stepsArray: dates,
+      translate: function(date) {
+        if (date != null)
+          return date.toDateString();
+        return '';
+      }
+    }
+  };
+
+
     $scope.chart = c3.generate({
             bindto: '#chart-Valor-Ganado',
             size: {
@@ -88,5 +145,41 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                     }
            }
         });
+
+      $scope.chart = c3.generate({
+            bindto: '#chart-Valor-Top',
+            size: {
+                height: 240
+            },  
+            data: {
+              x: 'Actividades',
+              type: 'bar',
+              columns: [
+                  ['Actividades', 'Actividad1', 'Actividad2', 'Actividad3'],
+                  ['Desviations',30, 70, 45],
+              ],
+              colors : {
+                'Actividades': '#8a89a6'
+              },
+            },
+            axis: {
+                  x: {
+                      type: 'category', 
+                      tick: {
+                          outer: false
+                      }
+                  },
+                  y: {
+                      tick: {
+                          outer: false
+                      }
+                  }
+            },
+            bar: {
+              width: {  
+                  ratio: 0.8
+              }
+           }
+        });  
 
   });

@@ -1,6 +1,23 @@
 <div>
+<h4>Time Line</h4>
+<rzslider 
+          rz-slider-model="slider.minValue"
+          rz-slider-high="slider.maxValue"
+          rz-slider-options="slider.options"></rzslider>
+<h4>Activity Parent</h4>
+ <select class="form-control" ng-model="ActivityParent.selected" ng-options="o as o for o in ActivityParent.options"></select>
+<h4>Activity Type</h4>
+ <select class="form-control" ng-model="TypeActivity.selected" ng-options="o as o for o in TypeActivity.options"></select>
+<br>
+   <h4>Valor Ganado</h4>
+<br>
   <div class="panel-body">
     <div id="chart-Valor-Ganado"></div>
-	  <label>{{selectItem}}</label>
+  </div>
+<br>
+<h4>Relevant Desviation Activities</h4>
+<br>
+  <div class="panel-body">
+    <div id="chart-Valor-Top"></div>
   </div>
 </div>
