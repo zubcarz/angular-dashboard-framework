@@ -59,7 +59,7 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
           {
             type: "Visual_Recursos",
             config: {},
-            title: "Recursos"
+            title: "Productividad"
           }
          ]
         }]
