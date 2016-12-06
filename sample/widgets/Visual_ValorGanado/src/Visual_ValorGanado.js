@@ -100,6 +100,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
 
     $scope.startDate = "2016-08-08";
     $scope.endDate = "2017-01-30";
+    $scope.selectDate = "All";
     $scope.parentActivityObj={
       'All':'All'
     }; 
@@ -194,7 +195,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
       }
 
       $scope.loadDataItem = function (){
-        ValorGanadoService.getEarnedValueItem('2016-10-15',$scope.parentActivityObj[$scope.ActivityParent.selected],
+        ValorGanadoService.getEarnedValueItem( $scope.selectDate,$scope.parentActivityObj[$scope.ActivityParent.selected],
                                           $scope.typeActivityObj[$scope.TypeActivity.selected]).then(function(result){
           
                var itemnsLabels= ['Actividades'];
@@ -210,8 +211,6 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                 itemnsLabels,
                 value
               ];
-
-              console.log(result);
 
               $scope.chartDesviation.unload({
                 done: function() {
@@ -289,6 +288,18 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
           }
       });
 
+      $scope.overItem = function(data){
+        $scope.selectDate = $scope.timeSerie[data.index+1];
+        $scope.loadDataItem();
+      }
+
+      $scope.countClick = 0;
+
+      $scope.$watch("countClick", function(value){
+             $scope.selectDat = 'All';
+             $scope.loadDataItem();
+      });
+     
 
     $scope.chartEarnedValue = c3.generate({
             bindto: '#chart-Valor-Ganado',
@@ -296,6 +307,9 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
                 height: 240
             },  
             data: {
+            onclick: function (d) {
+                $scope.overItem (d);
+            },
             x: 'x',
             columns: [
             ],
@@ -348,6 +362,7 @@ angular.module('adf.widget.Visual_ValorGanado', ['adf.provider'])
             },
             axis: {
                   x: {
+                      show: false,
                       type: 'category', 
                       tick: {
                           outer: false
