@@ -8,11 +8,29 @@ The api of angular-dashboard-framework (adf) is documented [here](http://angular
 started guide can be found [here](https://github.com/angular-dashboard-framework/angular-dashboard-framework/wiki/Getting-started).
 Follow me ([@ssdorra](https://twitter.com/ssdorra)) on twitter for latest updates and news about adf.
 
-## Demo
+BackEnd:
 
-A live demo of the adf can be viewed [here](http://angular-dashboard-framework.github.io/angular-dashboard-framework/). The demo uses html5 localStorage to store the state of the dashboard. The source of the demo can be found [here](https://github.com/angular-dashboard-framework/angular-dashboard-framework/tree/master/sample).
+https://github.com/zubcarz/visualBackend
 
-A more dynamic example can be found [here](https://github.com/angular-dashboard-framework/adf-dynamic-example).
+See the wiki of the project:
+
+https://github.com/davidgutierrez/BuildProyectManagement/wiki
+
+To see the course page:
+
+http://johnguerra.co/classes/isis_4822_fall_2016/
+
+To see the project demo:
+
+http://ec2-35-164-137-124.us-west-2.compute.amazonaws.com:9001/sample/#/sample/01
+
+To see a video example of the project:
+
+https://www.youtube.com/watch?v=lg-tykNhA0Y&feature=youtu.be
+
+The paper can be found in here:
+
+https://github.com/zubcarz/angular-dashboard-framework/blob/master/Visual%20Analytics%20to%20Develop%20Dashboard%20of%20Performance%20and%20Activities%20for%20the%20control%20and%20monitoring%20of%20Construction%20Projects.docx
 
 ## Build from source
 
@@ -89,25 +107,3 @@ Please do not commit changes to the dist folder. The dist folder is only generat
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-BackEnd:
-https://github.com/zubcarz/visualBackend
-
-See the wiki of the project:
-
-https://github.com/davidgutierrez/BuildProyectManagement/wiki
-
-To see the course page:
-
-http://johnguerra.co/classes/isis_4822_fall_2016/
-
-To see the project demo:
-
-http://ec2-35-164-137-124.us-west-2.compute.amazonaws.com:9001/sample/#/sample/01
-
-To see a video example of the project:
-
-https://www.youtube.com/watch?v=lg-tykNhA0Y&feature=youtu.be
-
-The paper can be found in here:
-
-https://github.com/zubcarz/angular-dashboard-framework/blob/master/Visual%20Analytics%20to%20Develop%20Dashboard%20of%20Performance%20and%20Activities%20for%20the%20control%20and%20monitoring%20of%20Construction%20Projects.docx
