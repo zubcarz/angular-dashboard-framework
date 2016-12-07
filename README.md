@@ -30,7 +30,7 @@ https://www.youtube.com/watch?v=lg-tykNhA0Y&feature=youtu.be
 
 The paper can be found in here:
 
-https://github.com/zubcarz/angular-dashboard-framework/blob/master/Visual%20Analytics%20to%20Develop%20Dashboard%20of%20Performance%20and%20Activities%20for%20the%20control%20and%20monitoring%20of%20Construction%20Projects.docx
+https://github.com/zubcarz/angular-dashboard-framework/blob/master/Article.docx
 
 ## Build from source
 
